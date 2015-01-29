@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="400.0" maxWidth="400.0" minHeight="400.0" minWidth="400.0" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.NoteController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="88.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="312.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <TextArea editable="false" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" promptText="Write you note here..." GridPane.rowIndex="1">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextArea>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="296.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="94.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Note Title">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label text="creation date dd/MM/yyyy" GridPane.rowIndex="1" />
+            <Button disable="true" mnemonicParsing="false" text="Save" GridPane.columnIndex="2" />
+            <Button defaultButton="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="48.0" text="Edit" GridPane.columnIndex="1" />
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </GridPane>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+   </padding>
+</GridPane>

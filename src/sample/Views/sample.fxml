@@ -10,11 +10,10 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-
-<GridPane alignment="center" hgap="10" prefHeight="350.0" prefWidth="350.0" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sample.Controllers.Controller">
+<GridPane alignment="center" hgap="10" prefHeight="350.0" prefWidth="350.0" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.Controller">
    <columnConstraints>
       <ColumnConstraints halignment="CENTER" maxWidth="89.0" minWidth="10.0" prefWidth="55.0" />
-      <ColumnConstraints halignment="CENTER" maxWidth="225.0" minWidth="178.0" prefWidth="225.0" />
+      <ColumnConstraints halignment="CENTER" maxWidth="225.0" minWidth="225.0" prefWidth="225.0" />
       <ColumnConstraints halignment="CENTER" maxWidth="74.0" minWidth="10.0" prefWidth="54.0" />
    </columnConstraints>
    <rowConstraints>
@@ -32,14 +31,14 @@
             <Font size="27.0" />
          </font>
       </Label>
-      <TextField prefHeight="26.0" prefWidth="194.0" promptText="username" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <TextField focusTraversable="false" prefHeight="26.0" prefWidth="194.0" promptText="Username" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <Button defaultButton="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="115.0" text="Login" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <Label text="Login" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <PasswordField promptText="password" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <PasswordField focusTraversable="false" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="114.0" text="Sign Up!" GridPane.columnIndex="1" GridPane.rowIndex="6" />
    </children>
    <padding>
