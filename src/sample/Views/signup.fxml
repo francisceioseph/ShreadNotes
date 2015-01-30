@@ -20,15 +20,15 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TextField focusTraversable="false" promptText="Type your name here" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField focusTraversable="false" layoutX="10.0" layoutY="198.0" promptText="Type you email here" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <PasswordField focusTraversable="false" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <PasswordField focusTraversable="false" promptText="Confirm password" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <TextField fx:id="nameTextField" focusTraversable="false" promptText="Type your name here" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="emailTextField" focusTraversable="false" layoutX="10.0" layoutY="198.0" promptText="Type you email here" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <PasswordField fx:id="passwordTextField" focusTraversable="false" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <PasswordField fx:id="confirmationPasswordTextField" focusTraversable="false" promptText="Confirm password" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Label text="Sign Up!" GridPane.columnIndex="1">
          <font>
             <Font name="System Bold" size="27.0" />
          </font>
       </Label>
-      <Button defaultButton="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="150.0" text="Sign Up Now!" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Button fx:id="confirmationButton" defaultButton="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="150.0" text="Sign Up Now!" GridPane.columnIndex="1" GridPane.rowIndex="5" />
    </children>
 </GridPane>
