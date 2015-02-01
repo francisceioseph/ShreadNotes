@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="400.0" maxWidth="400.0" minHeight="400.0" minWidth="400.0" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.NoteController">
+<GridPane maxHeight="400.0" maxWidth="400.0" minHeight="400.0" minWidth="400.0" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.NoteController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
