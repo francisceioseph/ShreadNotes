@@ -1,6 +1,7 @@
 package sample.controllers;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -37,20 +38,27 @@ public class Controller {
     @FXML
     public void signUp(ActionEvent actionEvent){
         System.out.println("Cadastrando...");
-        Node sourceNode = (Node) actionEvent.getSource();
-        Scene sourceScene = sourceNode.getScene();
 
-        this.openSignUpWindow(sourceScene.getWindow());
+        Window window = this.getWindowFromEvent(actionEvent);
+        this.openSignUpWindow(window);
+    }
+
+    private Window getWindowFromEvent(Event event){
+        Node sourceNode = (Node) event.getSource();
+        Scene sourceScene = sourceNode.getScene();
+        return sourceScene.getWindow();
     }
 
     private void openSignUpWindow(Window window) {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/signup.fxml"));
         Parent root = null;
+
         try {
             root = (Parent) fxmlLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         Stage stage = new Stage();
         stage.setTitle("Sign Up");
         stage.initModality(Modality.APPLICATION_MODAL);
