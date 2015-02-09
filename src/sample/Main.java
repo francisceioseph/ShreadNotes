@@ -6,6 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.rmi.NotBoundException;
+import java.rmi.RMISecurityManager;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
 public class Main extends Application {
 
     @Override
@@ -17,6 +23,30 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+        String serviceURL;
+
+        Singleton.INSTANCE.serverIPAddr = "localhost";
+        Singleton.INSTANCE.serverPort = 56789;
+
+
+
+
+        serviceURL = String.format("rmi://%s:%d/SharedNotes",
+                Singleton.INSTANCE.serverIPAddr,
+                Singleton.INSTANCE.serverPort);
+
+        try {
+
+            Registry registry = LocateRegistry.getRegistry(Singleton.INSTANCE.serverIPAddr, Singleton.INSTANCE.serverPort);
+            Singleton.INSTANCE.remoteServer = (SharedNotesInterface) registry.lookup(serviceURL);
+            launch(args);
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

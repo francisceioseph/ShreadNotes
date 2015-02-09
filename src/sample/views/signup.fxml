@@ -34,7 +34,7 @@
          <font>
             <Font size="33.0" />
          </font></Label>
-      <Button fx:id="confirmationButton" defaultButton="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Sign Up Now!" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
+      <Button fx:id="confirmationButton" onAction="#makeRegistration" defaultButton="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Sign Up Now!" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
          </Button>
    </children>
 </GridPane>
