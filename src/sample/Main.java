@@ -25,20 +25,14 @@ public class Main extends Application {
     public static void main(String[] args) {
         String serviceURL;
 
-        Singleton.INSTANCE.serverIPAddr = "localhost";
-        Singleton.INSTANCE.serverPort = 56789;
-
-
-
-
-        serviceURL = String.format("rmi://%s:%d/SharedNotes",
-                Singleton.INSTANCE.serverIPAddr,
-                Singleton.INSTANCE.serverPort);
+        configureNameServerAddress();
+        serviceURL = makeServiceURL();
 
         try {
 
             Registry registry = LocateRegistry.getRegistry(Singleton.INSTANCE.serverIPAddr, Singleton.INSTANCE.serverPort);
             Singleton.INSTANCE.remoteServer = (SharedNotesInterface) registry.lookup(serviceURL);
+
             launch(args);
 
         } catch (RemoteException e) {
@@ -46,6 +40,20 @@ public class Main extends Application {
         } catch (NotBoundException e) {
             e.printStackTrace();
         }
+
+
+    }
+
+    private static void configureNameServerAddress(){
+        Singleton.INSTANCE.serverIPAddr = "localhost";
+        Singleton.INSTANCE.serverPort = 56789;
+    }
+
+    private static String makeServiceURL(){
+
+         return String.format("rmi://%s:%d/SharedNotes",
+                Singleton.INSTANCE.serverIPAddr,
+                Singleton.INSTANCE.serverPort);
 
 
     }
