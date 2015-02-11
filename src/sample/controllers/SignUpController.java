@@ -75,6 +75,7 @@ public class SignUpController{
 
         Stage currentStage = this.getWindowFromActionEvent(actionEvent);
         Scene previousWindowScene = currentStage.getOwner().getScene();
+
         TextField emailField = (TextField) previousWindowScene.lookup("#emailAddressTextField");
         PasswordField passwordField = (PasswordField) previousWindowScene.lookup("#passwordField");
 

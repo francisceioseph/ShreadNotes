@@ -25,6 +25,10 @@ public class Main extends Application {
     public static void main(String[] args) {
         String serviceURL;
 
+        if (System.getSecurityManager() == null){
+            System.setSecurityManager(new RMISecurityManager());
+        }
+
         configureNameServerAddress();
         serviceURL = makeServiceURL();
 

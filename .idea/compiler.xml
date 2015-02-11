@@ -21,6 +21,7 @@
   </component>
   <component name="RmicSettings">
     <option name="IS_EANABLED" value="true" />
+    <option name="GENERATE_IIOP_STUBS" value="true" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="-Djava.security.policy=src/sample/rmi.policy" />
   </component>
 </project>

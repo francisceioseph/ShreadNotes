@@ -11,6 +11,8 @@ import java.rmi.RemoteException;
 public interface SharedNotesInterface extends Remote {
 
     public boolean createUser(String username, String email, String password) throws RemoteException;
+    public String retrievePublicUserInformation(String email, String password) throws RemoteException;
+
 //    public boolean updateUser(String username, String email, String password) throws RemoteException;
 //    public boolean deleteUser(String username, String email, String password) throws RemoteException;
 
