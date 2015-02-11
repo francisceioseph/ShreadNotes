@@ -82,12 +82,20 @@ public class Controller implements Initializable{
             e.printStackTrace();
         }
 
-        Stage stage = new Stage();
-        stage.setTitle("Sign Up");
+        this.makeWindow("SignUp", root);
+
+        Stage stage = this.makeWindow("Sign Up", root);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(window);
-        stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    private Stage makeWindow(String windowTitle, Parent root) {
+        Stage stage = new Stage();
+        stage.setTitle(windowTitle);
+        stage.setScene(new Scene(root));
+
+        return stage;
     }
 
     private void openMainWindow(String email, String password){
@@ -103,18 +111,16 @@ public class Controller implements Initializable{
         }
 
         if (userPublicInformation != null) {
-            Stage stage = new Stage();
-            stage.setTitle("Shared Notes");
-            Scene scene = new Scene(root);
+            JSONObject userInfo = new JSONObject(userPublicInformation);
+
+            Stage stage = this.makeWindow("Shared Notes", root);
+            Scene scene = stage.getScene();
 
             Label usernameLabel = (Label) scene.lookup("#usernameLabel");
             Label emailAddressLabel = (Label) scene.lookup("#emailAddressLabel");
-            JSONObject userInfo = new JSONObject(userPublicInformation);
 
             usernameLabel.setText(userInfo.getString("name"));
             emailAddressLabel.setText(userInfo.getString("email"));
-
-            stage.setScene(scene);
             stage.show();
         }
     }
