@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+import org.json.JSONObject;
 import sample.Singleton;
 
 import java.rmi.RemoteException;
@@ -35,9 +35,11 @@ public class SignUpController{
         {
             try {
 
-                Singleton.INSTANCE.remoteServer.createUser(this.nameTextField.getText(),
+                JSONObject user = this.makeUser(this.nameTextField.getText(),
                         this.emailTextField.getText(),
                         this.passwordTextField.getText());
+
+                Singleton.INSTANCE.remoteServer.createUser(user.toString(3));
 
                 this.populateFieldsOfPreviousWindow(actionEvent);
 
@@ -50,6 +52,14 @@ public class SignUpController{
 
     }
 
+    private JSONObject makeUser(String name, String email, String password){
+        JSONObject user = new JSONObject();
+        user.put("name", name);
+        user.put("email", email);
+        user.put("password", password);
+
+        return user;
+    }
     private boolean validateFields() {
         boolean isAllDuty = false;
         boolean isEqualsPasswords = false;

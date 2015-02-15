@@ -15,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
 import org.json.JSONObject;
 import sample.Main;
 import sample.Singleton;
@@ -44,10 +43,13 @@ public class Controller implements Initializable{
         String password = this.passwordField.getText();
 
         try {
-            Singleton.INSTANCE.userCookie = Singleton.INSTANCE.remoteServer.authenticate(email, password);
+            if (Singleton.INSTANCE.remoteServer.login(email, password)) {
+                this.closeWindowFromActionEvent(actionEvent);
+                this.openMainWindow(email, password);
+            }
+            else{
 
-            this.closeWindowFromActionEvent(actionEvent);
-            this.openMainWindow(email, password);
+            }
 
         }
         catch (RemoteException e) {
@@ -58,6 +60,8 @@ public class Controller implements Initializable{
     @FXML
     public void signUp(ActionEvent actionEvent){
         Window window = this.getWindowFromEvent(actionEvent);
+
+
         this.openSignUpWindow(window);
     }
 
@@ -78,16 +82,17 @@ public class Controller implements Initializable{
 
         try {
             root = (Parent) fxmlLoader.load();
+
+            Stage stage = this.makeWindow("Sign Up", root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(window);
+            stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        this.makeWindow("SignUp", root);
 
-        Stage stage = this.makeWindow("Sign Up", root);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(window);
-        stage.show();
     }
 
     private Stage makeWindow(String windowTitle, Parent root) {
@@ -105,7 +110,7 @@ public class Controller implements Initializable{
 
         try{
             root = (Parent) fxmlLoader.load();
-            userPublicInformation = Singleton.INSTANCE.remoteServer.retrievePublicUserInformation(email,password);
+            userPublicInformation = Singleton.INSTANCE.remoteServer.retrieveUser(email);
         } catch (IOException e) {
             e.printStackTrace();
         }
