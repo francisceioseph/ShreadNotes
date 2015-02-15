@@ -5,13 +5,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 /**
  * Created by francisco on 29/01/15.
  */
 public class NoteController {
     @FXML
-    Label noteTitleLabel;
+    TextField noteTitle;
 
     @FXML
     Label creationDateLabel;

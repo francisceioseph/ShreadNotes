@@ -8,7 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import sample.Main;
@@ -62,6 +65,14 @@ public class MainWindowController implements Initializable{
             stage.initOwner(window);
 
             Scene scene = stage.getScene();
+            TextField noteTitle = (TextField) scene.lookup("#noteTitle");
+            Label dateField = (Label) scene.lookup("#creationDateLabel");
+            Button edit = (Button) scene.lookup("#editButton");
+            Button save = (Button) scene.lookup("#saveButton");
+            TextArea textArea = (TextArea) scene.lookup("#noteTextField");
+
+            noteTitle.setText("New Note");
+
 
 
             //TODO initialize notes fields. Use scene.lookup
