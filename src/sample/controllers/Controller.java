@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import sample.Main;
 import sample.Singleton;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -56,6 +57,11 @@ public class Controller implements Initializable{
             Singleton.INSTANCE.userEmail = email;
             this.closeWindowFromActionEvent(actionEvent);
             this.openMainWindow(email, password);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Erro de Login, tente novamente.");
+            this.emailAddressTextField.clear();
+            this.passwordField.clear();
         }
     }
 

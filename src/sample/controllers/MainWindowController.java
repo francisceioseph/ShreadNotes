@@ -1,9 +1,12 @@
 package sample.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,10 +14,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import org.json.JSONObject;
 import sample.Main;
@@ -53,7 +60,54 @@ public class MainWindowController implements Initializable{
 
     @FXML
     public void logout(ActionEvent actionEvent){
-        //TODO call a method to logout of the system
+        boolean success = false;
+        try {
+            success = Singleton.INSTANCE.remoteServer.logout(Singleton.INSTANCE.userEmail);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        if (success){
+            Singleton.INSTANCE.userEmail = null;
+            Stage currentWindow = (Stage) this.getWindowFromEvent(actionEvent);
+            currentWindow.close();
+
+            this.openLoginWindow();
+        }
+    }
+
+    @FXML
+    public void closeMainWindow(ActionEvent actionEvent){
+
+        try {
+            Singleton.INSTANCE.remoteServer.logout(Singleton.INSTANCE.userEmail);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        Singleton.INSTANCE.userEmail = null;
+        Stage stage = (Stage) notesListView.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    public void deleteAccount(ActionEvent actionEvent){
+        try {
+            Singleton.INSTANCE.remoteServer.deleteUser(Singleton.INSTANCE.userEmail);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        Singleton.INSTANCE.userEmail = null;
+        Stage currentWindow = (Stage) notesListView.getScene().getWindow();
+        currentWindow.close();
+
+        this.openLoginWindow();
+    }
+
+    @FXML
+    public void aboutSharedNotes (ActionEvent actionEvent){
+
     }
 
     @Override
@@ -77,6 +131,58 @@ public class MainWindowController implements Initializable{
                 return new CellItem();
             }
         });
+
+
+
+        this.notesListView.setContextMenu(this.makeListViewContextMenu());
+    }
+
+
+    /*
+     *
+     * Helper methods for internal class use. :)
+     */
+
+    private ContextMenu makeListViewContextMenu() {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem openNoteItem = new MenuItem("Open Note");
+        MenuItem deleteNoteItem = new MenuItem("Delete Note");
+
+        openNoteItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Window window = notesListView.getScene().getWindow();
+                JSONObject selectedItem = notesListView.getSelectionModel().getSelectedItem();
+                openNote(window, selectedItem);
+            }
+        });
+
+        deleteNoteItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                JSONObject selectedItem = notesListView.getSelectionModel().getSelectedItem();
+                notesListView.getSelectionModel().clearSelection();
+
+                System.out.print(selectedItem.toString(3));
+
+                boolean success = false;
+
+                try {
+                    success = Singleton.INSTANCE.remoteServer.deleteNote(Singleton.INSTANCE.userEmail, selectedItem.getString("ID"));
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+                if (success){
+                    notes.removeAll(selectedItem);
+                }
+
+            }
+        });
+
+        contextMenu.getItems().addAll(openNoteItem, deleteNoteItem);
+        return contextMenu;
     }
 
     public void populateNotes() {
@@ -87,15 +193,26 @@ public class MainWindowController implements Initializable{
             this.notes.add(this.userNotes.getJSONObject(key));
         }
     }
-    /*
-     *
-     * Helper methods for internal class use. :)
-     */
 
     private Window getWindowFromEvent(Event event){
         Node sourceNode = (Node) event.getSource();
         Scene sourceScene = sourceNode.getScene();
         return sourceScene.getWindow();
+    }
+
+    private void openLoginWindow() {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/login.fxml"));
+        Parent root = null;
+
+        try {
+            root = (Parent) fxmlLoader.load();
+
+            Stage stage = this.makeWindow("Shared Notes", root);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void openNewNoteWindow(Window window) {
@@ -104,9 +221,42 @@ public class MainWindowController implements Initializable{
 
         try {
             root = (Parent) fxmlLoader.load();
+
+            NoteController noteController = fxmlLoader.<NoteController>getController();
+            noteController.initialize();
+
             Stage stage = this.makeWindow("New Note", root);
             stage.initOwner(window);
-            this.configureNewNoteWindow(stage.getScene());
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void openNote(Window window, JSONObject note){
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/note.fxml"));
+        Parent root = null;
+
+        try {
+            root = (Parent) fxmlLoader.load();
+
+            NoteController noteController = fxmlLoader.<NoteController>getController();
+            noteController.noteUUID = note.getString("ID");
+            String encodedNote = null;
+
+            try {
+                encodedNote = Singleton.INSTANCE.remoteServer.retrieveNote(Singleton.INSTANCE.userEmail, noteController.noteUUID);
+            }
+            catch (RemoteException e){
+                e.printStackTrace();
+            }
+
+            noteController.note = new JSONObject(encodedNote);
+            noteController.initialize();
+
+            Stage stage = this.makeWindow("Note", root);
+            stage.initOwner(window);
             stage.show();
 
         } catch (IOException e) {
@@ -122,25 +272,9 @@ public class MainWindowController implements Initializable{
         return stage;
     }
 
-    private void configureNewNoteWindow(Scene scene){
-        TextField noteTitle = (TextField) scene.lookup("#noteTitle");
-        Label dateField = (Label) scene.lookup("#creationDateLabel");
-        Button edit = (Button) scene.lookup("#editButton");
-        Button save = (Button) scene.lookup("#saveButton");
-        TextArea textArea = (TextArea) scene.lookup("#noteTextField");
-        String creationDate = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
-        String creationHour = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
-        noteTitle.setText("New Note");
-        noteTitle.setEditable(true);
-        dateField.setText(String.format("Creation date: %s at %s", creationDate, creationHour));
-        edit.setDisable(true);
-        save.setDisable(false);
-        textArea.setEditable(true);
-    }
-
-    static class CellItem extends ListCell<JSONObject> {
+    class CellItem extends ListCell<JSONObject> {
         @Override
-        public void updateItem(JSONObject item, boolean empty) {
+        public void updateItem(final JSONObject item, boolean empty) {
             super.updateItem(item, empty);
             Label labelTitle = new Label();
             Label labelSubtitle = new Label();
@@ -152,8 +286,20 @@ public class MainWindowController implements Initializable{
                 labelSubtitle.setText(item.getString("creationDate"));
                 labelSubtitle.setFont(new Font(10.0));
                 layout.getChildren().addAll(labelTitle, labelSubtitle);
+
+                layout.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (mouseEvent.getButton() == MouseButton.PRIMARY && mouseEvent.getClickCount() == 2) {
+                            Window window = getWindowFromEvent(mouseEvent);
+                            openNote(window, item);
+                        }
+                    }
+                });
+
                 setGraphic(layout);
             }
         }
+
     }
 }
