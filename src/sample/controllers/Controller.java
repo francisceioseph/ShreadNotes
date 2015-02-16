@@ -41,27 +41,27 @@ public class Controller implements Initializable{
     public void login(ActionEvent actionEvent){
         String email = this.emailAddressTextField.getText();
         String password = this.passwordField.getText();
+        boolean loginSuccess = false;
 
-        try {
-            if (Singleton.INSTANCE.remoteServer.login(email, password)) {
-                this.closeWindowFromActionEvent(actionEvent);
-                this.openMainWindow(email, password);
+        if (!email.isEmpty() && !password.isEmpty()){
+            try {
+                loginSuccess = Singleton.INSTANCE.remoteServer.login(email, password);
             }
-            else{
-
+            catch (RemoteException e) {
+                e.printStackTrace();
             }
-
         }
-        catch (RemoteException e) {
-            e.printStackTrace();
+
+        if (loginSuccess){
+            Singleton.INSTANCE.userEmail = email;
+            this.closeWindowFromActionEvent(actionEvent);
+            this.openMainWindow(email, password);
         }
     }
 
     @FXML
     public void signUp(ActionEvent actionEvent){
         Window window = this.getWindowFromEvent(actionEvent);
-
-
         this.openSignUpWindow(window);
     }
 

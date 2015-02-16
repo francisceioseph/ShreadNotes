@@ -6,7 +6,7 @@ package sample;
 public enum Singleton {
     INSTANCE;
 
-    public String userName;
+    public String userEmail;
     public String serverIPAddr;
     public int serverPort;
 

@@ -2,11 +2,9 @@
 
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 
 <GridPane maxHeight="400.0" maxWidth="400.0" minHeight="400.0" minWidth="400.0" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.NoteController">
   <columnConstraints>
@@ -31,9 +29,9 @@
         </rowConstraints>
          <children>
             <Label fx:id="creationDateLabel" text="creation date dd/MM/yyyy" GridPane.rowIndex="1" />
-            <Button fx:id="saveButton" disable="true" mnemonicParsing="false" onAction="#saveNote" text="Save" GridPane.columnIndex="2" />
-            <Button fx:id="editButton" defaultButton="true" mnemonicParsing="false" onAction="#enableEditMode" prefHeight="26.0" prefWidth="48.0" text="Edit" GridPane.columnIndex="1" />
-            <TextField fx:id="noteTitle" editable="false" prefHeight="34.0" prefWidth="259.0" promptText="Note Title">
+            <Button fx:id="saveButton" disable="true" minHeight="30.0" mnemonicParsing="false" onAction="#saveNote" text="Save" GridPane.columnIndex="2" />
+            <Button fx:id="editButton" defaultButton="true" minHeight="30.0" mnemonicParsing="false" onAction="#enableEditMode" prefHeight="26.0" prefWidth="48.0" text="Edit" GridPane.columnIndex="1" />
+            <TextField fx:id="noteTitle" editable="false" maxHeight="30.0" minHeight="30.0" prefHeight="34.0" prefWidth="259.0" promptText="Note Title">
 
             </TextField>
          </children>
