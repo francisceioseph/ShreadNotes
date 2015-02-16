@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.rmi.NotBoundException;
@@ -18,6 +19,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("views/login.fxml"));
         primaryStage.setTitle("Shared Notes");
+        primaryStage.getIcons().addAll(new Image(getClass().getResourceAsStream("views/noteIcon.png")));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

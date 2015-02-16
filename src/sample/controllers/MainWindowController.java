@@ -107,7 +107,18 @@ public class MainWindowController implements Initializable{
 
     @FXML
     public void aboutSharedNotes (ActionEvent actionEvent){
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("views/about.fxml"));
+        Parent root = null;
 
+        try {
+            root = (Parent) fxmlLoader.load();
+
+            Stage stage = this.makeWindow("Shared Notes", root);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
